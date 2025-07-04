@@ -1,0 +1,82 @@
+<%- include("../public/partials/head.ejs", { title: "Admin", CSSFile: "/chef/style.css" }) %>
+<body data-user_id="<%= user_id %>">
+<%- include("../public/partials/navbar.ejs") %>
+<div id="cover">
+    <div class="container mt-5 pt-5 mb-5">
+        <div class="d-flex flex-wrap" id="top_buttons">
+            <form action="/order" method="GET" class="me-3 mb-3">
+                <button id="view_menu" class="btn btn-primary">View Menu</button>
+            </form>
+        </div>
+
+        <h3 class="text-center mb-4">Manage Orders</h3>
+        <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+            <button class="btn btn-outline-primary filter-btn" data-chef="all">All Active</button>
+            <button class="btn btn-outline-primary filter-btn" data-chef="unassigned">Unassigned</button>
+            <button class="btn btn-outline-warning filter-btn" data-chef="mine">Mine</button>
+
+        </div>
+        <div class="order_table">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Category</th>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Order Id</th>
+                        <th>Instructions</th>
+                        <th>Chef</th>
+                        <th>Details</th>
+                        <th>Complete</th>
+                    </tr>
+                </thead>
+                <tbody id="orders_table_body">
+                    <% items.forEach(item => { %>
+                        <tr data-chef_id="<%= item.chef_id %>" data-user_id="<%= user_id %>">
+                            <td><%= item.category_name %></td>
+                            <td><%= item.item_name %></td>
+                            <td><%= item.quantity %></td>
+                            <td><%= item.order_id %></td>
+                            <td id="instructions"><%= item.instructions || "-" %></td>
+                            <td>
+                                <% if (item.chef_id == 1) { %>
+                                    Unassigned
+                                <% } else { %>
+                                    <%= item.first_name %> <%= item.last_name %>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (item.chef_id == 1) { %>
+                                    <form action="/chef/assign" method="POST">
+                                        <input type="hidden" name="order_id" value="<%= item.order_id %>">
+                                        <input type="hidden" name="item_name" value="<%= item.item_name %>">
+                                        <button class="btn btn-sm btn-outline-info" type="submit">Assign to Me</button>
+                                    </form>
+                                <% } else if (item.chef_id == user_id) { %>
+                                    Assigned to You
+                                <% } else { %>
+                                    Already Taken
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (item.chef_id == user_id) { %>
+                                    <form action="/chef/complete" method="POST">
+                                        <input type="hidden" name="order_id" value="<%= item.order_id %>">
+                                        <input type="hidden" name="item_name" value="<%= item.item_name %>">
+                                        <button class="btn btn-sm btn-success" type="submit">Mark Complete</button>
+                                    </form>
+                                <% } else { %>
+                                    -
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include("../public/partials/footer") %>
+<script src="/chef/script.js"></script>
+</body>
+</html>

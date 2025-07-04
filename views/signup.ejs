@@ -1,0 +1,68 @@
+<%- include("../public/partials/head.ejs", { title: "Sign Up", CSSFile: "/signup/style.css" }) %>
+<body data-error="<%= error %>" data-message="<%= message %>">
+<%- include("../public/partials/navbar.ejs") %>
+    <div id="wrapper">
+        <div id="cover">
+            <form action="/signup" method="POST" class="container mt-5" style="max-width: 400px;" id="signup_form">
+                <h3 class="text-center mb-4"><b>SIGNUP</b></h3>
+                <div class="mb-3">
+                    <label class="form-label d-block">Role:</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="role" id="customer_op" value="customer" checked>
+                        <label class="form-check-label" for="customer_op">Customer</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="role" id="chef_op" value="chef">
+                        <label class="form-check-label" for="chef_op">Chef</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="role" id="admin_op" value="admin">
+                        <label class="form-check-label" for="admin_op">Admin</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Id</label>
+                    <input type="text" class="form-control" id="email" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="mobile" class="form-label">Mobile Number</label>
+                    <input type="tel" class="form-control" id="mobile" name="mobile" pattern="^\d{10}$">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="show_password">
+                    <label class="form-check-label" for="show_password">Show Password</label>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="error_msg_toast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+<%- include("../public/partials/footer") %>
+<script src="/signup/script.js"></script>
+</body>
+</html>

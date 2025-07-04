@@ -1,0 +1,78 @@
+<%- include("../public/partials/head.ejs", { title: "Your Bill", CSSFile: "/bill/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+
+<div class="container my-5 py-5">
+    <div class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
+        <h4 class="text-center mb-3">Order ID: <%= order.order_id %></h4>
+        <p><b>Name:</b> <%= user.first_name %> <%= user.last_name %></p>
+        <p><b>Instructions: </b><%=order.instructions%></p>
+        <h5 class="mt-4 mb-2">Ordered Items:</h5>
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% items.forEach(item => { %>
+                    <tr>
+                        <td><%= item.item_name %></td>
+                        <td>₹<%= item.price %></td>
+                        <td><%=item.quantity%></td>
+                        <td>₹<%= item.price * item.quantity %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <div class="text-end mt-3">
+            <p><b>Total:</b> ₹<%= total %></p>
+        </div>
+        <p><b>Tip Paid:</b> <%= transaction.tip_amount %></p>
+        <p><b>Reward Points Used:</b> <%= transaction.discount_reward_points %></p>
+        <p><b>Instructions: </b><%=order.instructions%></p>
+        <p><b>Current Reward Points:</b> <%=user.reward_points%></p>
+        <% const expiry = new Date(user.last_visited);
+        expiry.setMonth(expiry.getMonth() + 6);%>
+        <p><b>Reward Points Valid Till:</b> <%= expiry.toLocaleDateString("en-IN") %></p>
+        <!-- <p><b>Reward Points Valid Till:</b> <%= expiry.toDateString() %></p> -->
+        <% const ratings = [
+            { label: "Ambience", value: review.ambience_stars },
+            { label: "Food Quality", value: review.food_quality_stars },
+            { label: "Service", value: review.service_stars },
+            { label: "Value for Money", value: review.value_for_money_stars },
+            { label: "Overall Rating", value: review.star_rating }
+        ]; %>
+        <% ratings.forEach(r => { %>
+            <p><b><%= r.label %>:</b>
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <% if (i <= Math.floor(r.value)) { %>
+                        <i class="fas fa-star text-warning"></i>
+                    <% } else if (i - r.value <= 0.9) { %>
+                        <i class="fas fa-star-half-alt text-warning"></i>
+                    <% } else { %>
+                        <i class="far fa-star text-warning"></i>
+                    <% } %>
+                <% } %>
+                (<%= r.value %>)
+            </p>
+        <% }) %>
+        <p id="remarks"><b>Remarks: </b><%=review.comments%></p>
+        <div class="text-end mb-4">
+            <p><b>Final Total:</b> ₹<span id="final_total"><%= transaction.amount_paid %></span></p>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <form action="/order" method="GET">
+                <button class="btn btn-outline-secondary" type="submit">Back to Menu</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("../public/partials/footer") %>
+</body>
+</html>

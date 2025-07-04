@@ -1,0 +1,11 @@
+.navbar.bg-dark{
+    top: 0;
+}
+.container {
+    margin-top: 5rem !important;
+    overflow-x: scroll;
+}
+#cover {
+    overflow: scroll;
+    padding-bottom: 5rem;
+}

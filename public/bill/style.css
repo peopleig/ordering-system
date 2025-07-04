@@ -1,0 +1,10 @@
+.navbar.bg-dark{
+    top: 0;
+}
+.py-5 {
+    padding-top: 5rem !important;
+}
+
+#remarks {
+    max-width: 80%;
+}

@@ -1,0 +1,30 @@
+{
+  "name": "ordering-system",
+  "version": "1.0.0",
+  "description": "This is a website to serve as a Food Ordering Management System.   It will offer customers a quick way to browse through the menu and ordering food without any hassle.   The website also contains a chef-side portal, providing the chefs to efficiently track the orders and dividing the work between themselves.   A third portal is for the admin, allowing maximum customisability, helping create an individual identity for each restaurant. Add new dishes, remove old ones, custom discounts, a customer reward scheme and much more.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "app": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peopleig/ordering-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.7",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.1",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

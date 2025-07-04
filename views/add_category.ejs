@@ -1,0 +1,25 @@
+<%- include("../public/partials/head.ejs", { title: "Add Dish", CSSFile: "/add_dish/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+<div id="cover">
+    <div class="container mt-5 pt-5">
+        <div class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
+            <h3 class="text-center mb-4">Add New Category</h3>
+            <form action="/admin/add_category" method="POST">
+                <div class="mb-3">
+                    <label for="category_name" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="category_name" name="category_name" required>
+                    <small class="form-text text-muted">We use names like North Indian, Mexican, etc.</small>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("../public/partials/footer") %>
+<script src="/add_dish/script.js"></script>
+</body>
+</html>

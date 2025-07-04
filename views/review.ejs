@@ -1,0 +1,44 @@
+<%- include("../public/partials/head.ejs", { title: "Payment Page", CSSFile: "/bill/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+
+<div class="container my-5 py-5">
+    <div class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
+        <h4 class="text-center mb-3">Order ID: <%= order.order_id %></h4>
+        <p><b>Name:</b> <%= user.first_name %> <%= user.last_name %></p>
+        <p><b>Status: </b>Completed</p>
+        <p>Congratulations! Your Payment has gone through.</p>
+        <form action="/review/<%= order.order_id %>" method="POST" id="review_form" class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
+            <h3 class="text-center mb-4">How was your experience?</h3>
+            <div class="mb-3">
+                <label for="ambience" class="form-label">Ambience: <span id="ambience_val">3</span></label>
+                <input type="range" class="form-range" id="ambience" name="ambience" min="1" max="5" value="3">
+            </div>
+            <div class="mb-3">
+                <label for="food_quality" class="form-label">Food Quality: <span id="food_quality_val">3</span></label>
+                <input type="range" class="form-range" id="food_quality" name="food_quality" min="1" max="5" value="3">
+            </div>
+            <div class="mb-3">
+                <label for="service" class="form-label">Service: <span id="service_val">3</span></label>
+                <input type="range" class="form-range" id="service" name="service" min="1" max="5" value="3">
+            </div>
+            <div class="mb-4">
+                <label for="value" class="form-label">Value for Money: <span id="value_val">3</span></label>
+                <input type="range" class="form-range" id="value" name="value" min="1" max="5" value="3">
+            </div>
+            <div class="mb-4">
+                <label for="comments" class="form-label">Suggestions or Feedback:</label>
+                <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Let us know what you loved or what could improve..."></textarea>
+            </div>
+            <div class="text-end">
+                <button class="btn btn-success" type="submit">Submit Review</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<%- include("../public/partials/footer") %>
+<script src="/review/script.js"></script>
+</body>
+</html>

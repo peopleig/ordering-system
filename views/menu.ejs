@@ -1,0 +1,149 @@
+<%- include("../public/partials/head.ejs", { title: "Menu", CSSFile: "/menu/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+<div id="cover">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">Our Menu</h3>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="vegToggle">
+                <label class="form-check-label" for="vegToggle">Veg Only</label>
+            </div>
+        </div>
+        <button id="open-cart" class="btn btn-primary mb-3">
+                View Cart
+        </button>
+        <button id="surprise-me-btn" class="btn btn-outline-warning mb-3 ms-2">Surprise Me</button>
+        <div id="surprise-popup" class="position-fixed top-50 start-50 translate-middle bg-white p-4 shadow rounded d-none z-3" style="min-width: 300px;">
+            <h5 class="mb-3">How many people?</h5>
+            <input type="number" id="people-count" class="form-control mb-3" min="1" placeholder="Enter number of people">
+            <div class="d-flex justify-content-between">
+                <button id="cancel-surprise" class="btn btn-secondary btn-sm">Cancel</button>
+                <button id="generate-surprise" class="btn btn-success btn-sm">Surprise Me!</button>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <h4>Your Orders</h4>
+            <div class="d-flex gap-1 mb-3">
+                <button class="btn btn-outline-primary order-filter" data-status="preparing">Preparing</button>
+                <button class="btn btn-outline-warning order-filter" data-status="payment_pending">Payment Pending</button>
+                <button class="btn btn-outline-success order-filter" data-status="completed">Completed</button>
+            </div>
+            <div class="overflow-auto">
+                <% orders.forEach(order => { %>
+                    <div class="orders-card card d-inline-block me-3 p-3 mb-3" data-status="<%= order.status %>">
+                        <h5 class="mb-2">#<%= order.order_id %></h5>
+                        <p class="mb-2">₹<%= order.total_cost %></p>
+                        <% let path = ''; %>
+                        <% if (order.status === 'preparing') { %>
+                            <% path = '/order/preparing/' + order.order_id; %>
+                        <% } else if (order.status === 'completed') { %>
+                            <% path = '/order/completed/' + order.order_id; %>
+                        <% } else { %>
+                            <% path = '/order/' + order.order_id; %>
+                        <% } %>
+                        <a href="<%= path %>" class="btn btn-sm btn-primary">View Bill</a>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+
+        <div class="accordion" id="menu_accordion">
+            <% Object.keys(menu_by_category).forEach((category, index) => { %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<%= index %>">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>">
+                            <%= category %>
+                        </button>
+                    </h2>
+                    <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#menu_accordion">
+                        <div class="accordion-body">
+                            <% menu_by_category[category].forEach(dish => { %>
+                                <div class="card mb-3 menu-card <%= dish.is_veg ? 'veg' : 'non-veg' %>">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="<%=dish.image%>" class="img-fluid rounded-start h-100 object-fit-cover" alt="<%= dish.item_name %>">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%= dish.item_name %></h5>
+                                                <p class="card-text"><%= dish.description %></p>
+                                                <p class="card-text fw-bold">₹<%= dish.price %></p>
+                                                <span class="badge bg-<%= dish.is_veg ? 'success' : 'danger' %>">
+                                                    <%= dish.is_veg ? 'Veg' : 'Non-Veg' %>
+                                                </span>
+                                                <span class="ms-2 badge bg-warning text-dark">
+                                                    <%= dish.spice_level < 0 ? 'Sweet Level: ' + Math.abs(dish.spice_level) : 'Spice Level: ' + dish.spice_level %>
+                                                </span>
+                                                <button class="btn btn-outline-primary btn-sm mt-2 add-to-cart-btn"
+                                                    data-id="<%= dish.item_id %>"
+                                                    data-name="<%= dish.item_name %>"
+                                                    data-price="<%= dish.price %>"
+                                                    data-image="<%= dish.image %>"
+                                                    data-veg="<%= dish.is_veg %>">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+<div id="cart-popup" class="position-fixed top-50 start-50 translate-middle bg-white p-4 shadow rounded d-none z-3" style="min-width: 300px;">
+    <h5 class="mb-3">Your Cart</h5>
+    <div id="cart-items" class="mb-3"></div>
+    <div class="d-flex justify-content-between flex-column">
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" role="switch" id="orderTypeSwitch">
+            <label class="form-check-label" for="orderTypeSwitch">Takeaway (Toggle for Dine-In)</label>
+        </div>
+        <div class="mb-3">
+            <label for="tableNumber" class="form-label">Table Number</label>
+            <select class="form-select" id="tableNumber">
+                <% for (let i = 1; i<= 10; i++) { %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="instructions" class="form-label">Instructions</label>
+            <textarea class="form-control" id="instructions" rows="2" placeholder="Any special requests?"></textarea>
+        </div>
+        <form id="confirm-order-form" method="POST" action="/order">
+            <input type="hidden" name="cart_data" id="cart_data">
+            <input type="hidden" name="order_type" id="order_type">
+            <input type="hidden" name="table_number" id="table_number">
+            <input type="hidden" name="instructions" id="hidden_instructions">
+            <input type="hidden" name="total_cost" id="total_cost">
+        </form>
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-secondary" id="close-cart">Close</button>
+            <button class="btn btn-sm btn-success" onclick="confirm_order()">Confirm Order</button>
+        </div>
+    </div>
+</div>
+<% if (review_exists) { %>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div class="toast show text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    You’ve already submitted a review for this order.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+<% } %>
+<%- include("../public/partials/footer") %>
+<script src="/menu/script.js"></script>
+<script src="/menu/surprise.js"></script>
+<script src="/menu/cart.js"></script>
+</body>
+</html>

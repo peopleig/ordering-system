@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'Metamorphous';
+    src: url('/fonts/Metamorphous-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.navbar.bg-dark {
+    height: 12%;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    background-color: #021945 !important;
+    font-family: 'Metamorphous', serif;
+    font-size: 2rem !important;
+}
+.container-fluid.justify-content-center {
+    background-color: #021945;
+}
+.navbar-brand.mb-0.h1.text-white.text-center {
+    font-size: 2.5rem !important;
+    color: #98FF98   !important;
+}
+#logo{
+    height: 3rem !important;
+}
+@media (max-width: 650px) {
+    .navbar-brand.mb-0.h1.text-white.text-center {
+        font-size: 2rem !important;
+    }
+    #logo{
+        height: 2rem !important;
+    }
+}
+@media (max-width: 550px) {
+    .navbar-brand.mb-0.h1.text-white.text-center {
+        font-size: 1.4rem !important;
+    }
+    #logo{
+        height: 1.5rem !important;
+    }
+}
+
+.bg-dark.text-white.text-center.py-4 {
+    background-color: #021945 !important;
+    display: flex;
+    width: 100%;
+    height: 9%;
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    padding: 1rem 0 1rem 0 !important;
+}
+.text-white.me-4{
+    text-decoration: none;
+}
+#icons {
+    margin-bottom: 0 !important;
+    margin-top: 0;
+}
+i {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem;
+}
+@media (max-width: 400px) {
+    i {
+        font-size: 1.25rem !important;
+    }
+    .mb-0 {
+        font-size: 0.75rem;
+    }
+}
+
+#logout {
+    margin-bottom: 0;
+    width: 10px;
+    color: #021945;
+}
+.loggingout {
+    width: auto;
+    background-color: #98FF98;
+    border-color: #98FF98;
+}

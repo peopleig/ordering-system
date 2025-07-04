@@ -1,0 +1,138 @@
+<%- include("../public/partials/head.ejs", { title: "Admin", CSSFile: "/admins/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+<div id="cover">
+    <div class="container mt-5 pt-5 mb-5">
+        <div class="d-flex flex-wrap" id="top_buttons">
+            <form action="/order" method="GET" class="me-3 mb-3">
+                <button id="view_menu" class="btn btn-primary">View Menu</button>
+            </form>
+            <form action="/admin/add_dish" method="GET" class="me-3 mb-3">
+                <button id="add_dish" class="btn btn-primary">Add Dish</button>
+            </form>
+            <form action="/admin/add_category" method="GET" class="me-3 mb-3">
+                <button id="add_category" class="btn btn-primary">Add Category</button>
+            </form>
+        </div>
+
+        <h3 class="text-center mb-4">Manage Orders</h3>
+        <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+            <button class="btn btn-outline-primary filter-btn" data-status="all">All</button>
+            <button class="btn btn-outline-warning filter-btn" data-status="preparing">Preparing</button>
+            <button class="btn btn-outline-danger filter-btn" data-status="payment_pending">Payment Pending</button>
+            <button class="btn btn-outline-success filter-btn" data-status="completed">Completed</button>
+        </div>
+        <div class="order_table">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Status</th>
+                        <th>Order ID</th>
+                        <th>User ID</th>
+                        <th>Order Type</th>
+                        <th>Table No.</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="orders_table_body">
+                    <% orders.forEach(order => { %>
+                        <tr data-status="<%= order.status %>">
+                            <td>
+                                <% if (order.status === "payment_pending") { %>
+                                    Payment Pending
+                                <% } else if (order.status === "preparing") { %>
+                                    Preparing
+                                <% } else if (order.status === "completed") { %>
+                                    Completed
+                                <% } else { %>
+                                    -
+                                <% } %>
+                            </td>
+                            <td><%= order.order_id %></td>
+                            <td><%= order.user_id %></td>
+                            <td>
+                                <% if(order.order_type === "dine_in"){ %>
+                                    Dine In
+                                <% } else { %>
+                                    Takeaway
+                                <% } %>
+                            </td>
+                            <td><%= order.table_number || "-" %></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info show-more-btn" 
+                                data-order_id="<%= order.order_id %>"
+                                data-user_id="<%=order.user_id%>"
+                                data-table_number="<%=order.table_number%>"
+                                data-status="<%=order.status%>">
+                                    Show More
+                                </button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container mb-5">
+        <h3 class="text-center mb-4">Pending Approvals</h3>
+        <div class="approval_table">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>User ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% approvals.forEach(user => { %>
+                        <tr>
+                            <td><%= user.user_id %></td>
+                            <td><%= user.first_name %></td>
+                            <td><%= user.last_name %></td>
+                            <td><%= user.role %></td>
+                            <td>
+                                <button class="btn btn-danger btn-sm delete-btn" data-user_id="<%= user.user_id %>">Delete</button>
+                                <button class="btn btn-sm btn-success approve-btn" data-user_id="<%= user.user_id %>">Approve</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</div>
+    <div id="order_popup" class="position-fixed top-50 start-50 translate-middle bg-white p-4 shadow rounded d-none">
+        <h5 class="mb-3">Order Details</h5>
+        <p>More details will appear here.</p>
+        <div class="d-flex flex-wrap gap-2 justify-content-between mt-3">
+            <form id="get_bill" method="GET">
+                <button type="submit" class="btn btn-info btn-sm">Get Bill</button>
+            </form>
+
+            <button class="btn btn-success btn-sm" id="mark_complete_btn">Mark as Completed</button>
+            <button class="btn btn-secondary btn-sm" id="close_popup">Close</button>
+        </div>
+    </div>
+    <% if (dish_added || category_added) { 
+        let name;
+        if(dish_added) name = "Dish" 
+        else name = "Category" %>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+            <div class="toast custom-toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <%=name%> added. Go to Menu to check out the changes
+                    </div>
+                    <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+<%- include("../public/partials/footer") %>
+<script src="/admins/script.js"></script>
+</body>
+</html>

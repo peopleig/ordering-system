@@ -1,0 +1,22 @@
+<%- include("../public/partials/head.ejs", { title: "Home", CSSFile: "/home/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+    <div id="wrapper">
+        <div id="cover">
+            <div id="introduction">Welcome to <b>Neptune's Kitchen</b>— where flavors from across the world come alive!
+                From sizzling North Indian curries to comforting South Indian staples, zesty Mexican tacos to classic Italian pastas — we serve a handpicked menu crafted for every craving.
+                <br>Top it off with our decadent global desserts and signature beverages. One kitchen, many cultures — all delicious.
+                <br><br><br>Been here before? Hit <b>Login</b> and let's pick up where we left off!
+                <br>First time here? Click <b>Sign Up</b> — we're excited to serve you something amazing!
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btn-primary" type="button" href="/login">Login</a>
+                <a class="btn btn-primary" type="button" href="/signup">Sign Up</a>
+            </div>
+
+        </div>
+    </div>
+<%- include("../public/partials/footer") %>
+<script src="/home/script.js"></script>
+</body>
+</html>

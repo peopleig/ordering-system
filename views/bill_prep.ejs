@@ -1,0 +1,52 @@
+<%- include("../public/partials/head.ejs", { title: "Your Bill", CSSFile: "/bill/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+
+<div class="container my-5 py-5">
+    <div class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
+        <h4 class="text-center mb-3">Order ID: <%= order.order_id %></h4>
+        <p><b>Name:</b> <%= user.first_name %> <%= user.last_name %></p>
+        <p><b>Instructions: </b><%=order.instructions%></p>
+        <h5 class="mt-4 mb-2">Ordered Items:</h5>
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% items.forEach(item => { %>
+                    <tr>
+                        <td><%= item.item_name %></td>
+                        <td>₹<%= item.price %></td>
+                        <td><%=item.quantity%></td>
+                        <td>₹<%= item.price * item.quantity %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <div class="text-end mt-3">
+            <p><b>Total:</b> ₹<%= total %></p>
+        </div>
+        <p>Your Food is being prepared!
+            <br>Our Chefs are hard at work
+        </p>
+        <div class="text-end mb-4">
+            <p><b>Final Total:</b> ₹<span id="final_total"><%= total %></span></p>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <form action="/order" method="GET">
+                <button class="btn btn-outline-secondary" type="submit">Back to Menu</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("../public/partials/footer") %>
+<script src="/bill/script.js"></script>
+</body>
+</html>

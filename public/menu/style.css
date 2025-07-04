@@ -1,0 +1,57 @@
+.menu-card img {
+    height: 100px;
+    width: 100px;
+}
+.navbar.bg-dark{
+    top: 0;
+}
+#cart-popup{
+    min-width: 300px;
+    max-height: 70%;
+    overflow: scroll;
+}
+.py-5 {
+    padding-top: 10rem !important;
+    max-width: 50vw;
+}
+#cover {
+    top: 12%;
+    position: relative;
+    height: 70%;
+    overflow: scroll;
+    margin-bottom: 10rem;
+}
+@media (max-width: 1300px){
+    .py-5 {
+        max-width: 70vw;
+    }   
+}
+@media (max-width: 700px){
+    .py-5 {
+        max-width: 90vw;
+    }
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.orders-card {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 150px;
+    height: 120px;
+}
+.overflow-auto {
+    white-space: nowrap;
+}
+
+.overflow-auto::-webkit-scrollbar {
+    height: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+

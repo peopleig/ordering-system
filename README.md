@@ -1,4 +1,32 @@
-# ordering-system
+# ordering-system  
+## Default Creds  
+### Admin:  
+- Email Id: admin.neptune@restaurant.com  
+- Mobile No.: 0000000000  
+- Password: Wowwhatagreatandsecurepassword123  
+  
+### Chef 1 (John Doe):  
+- Email Id: johndoe@restaurant.com  
+- Mobile No.: 0000000001  
+- Password: Thisisjohnspwd123  
+  
+### Chef 2 (Jane Doe):  
+- Email Id: janedoe@restaurant.com  
+- Mobile No.: 0000000002  
+- Password: Thisisjanespwd456  
+  
+## Setting UP  
+- Clone the repo  
+```
+cd ordering-system
+npm install  
+```  
+- Set up the env variables  
+- DB_NAME = food_sys 
+```
+mysql -u root -p < neptune.sql
+npm run app
+```
 ## Introduction  
 This is a website to serve as a Food Ordering Management System.  
 It will offer customers a quick way to browse through the menu and ordering food without any hassle.  
@@ -18,8 +46,6 @@ The portal will also show the chef all their current orders, and a facility to l
   
 ## Admin Portal  
 It allows the admin, owner, to customize the website to their requirements.  
-Options to add dishes, remove them, add discounts, and many more features for the admin to utilise.  
+Options to add dishes, remove them, add categories, and many more features for the admin to utilise.  
 It shows the admin a dynamic list of all the orders, completed or otherwise, to keep a check on the restaurant's working.  
-  
-## System Workings  
-The website is built using MySQL for db, NodeJS for the backend and EJS for the frontend
+

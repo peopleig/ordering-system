@@ -1,0 +1,41 @@
+#order_popup {
+    min-width: 300px;
+    max-width: 90%;
+    width: auto;
+}
+.order_table , .approval_table{
+    max-height: 400px;
+    overflow: scroll;
+}
+.navbar.bg-dark{
+    top: 0;
+}
+.pt-5 {
+    padding-top: 0rem !important;
+}
+
+#cover {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 10%;
+    width: 80%;
+    top: 12%;
+    height: 79%;
+    overflow: scroll;
+}
+.table-dark th {
+    background-color: #021945;
+    color: #98FF98;
+}
+
+.custom-toast {
+    background-color: #98FF98 !important;
+    color: #021945;
+}
+
+#instructions {
+    max-width: 20vw;
+    overflow: scroll;
+}
