@@ -3,7 +3,7 @@
     max-width: 90%;
     width: auto;
 }
-.order_table , .approval_table{
+.order_table , .approval_table, .item_table{
     max-height: 400px;
     overflow: scroll;
 }
@@ -33,4 +33,8 @@
 .custom-toast {
     background-color: #98FF98 !important;
     color: #021945;
+}
+#instructions {
+    max-width: 20vw;
+    overflow: scroll;
 }

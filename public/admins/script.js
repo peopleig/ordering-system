@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const filter_buttons = document.querySelectorAll(".filter-btn");
+    const filter_buttons = document.querySelectorAll(".order_buttons");
     const rows = document.querySelectorAll("#orders_table_body tr");
     const popup = document.getElementById("order_popup");
     const close_popup = document.getElementById("close_popup");
     const get_bill = document.getElementById("get_bill");
     let current_order_id;
     let current_user_id;
-
+    
     filter_buttons.forEach(btn => {
         btn.addEventListener("click", () => {
             const status = btn.dataset.status;
@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     row.classList.add("d-none");
                 }
             });
+            filter_buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
         });
     });
     document.querySelectorAll(".delete-btn").forEach(btn => {
@@ -39,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
             else alert("Approval failed.");
         });
     });
-
-
+    
+    
     document.querySelectorAll(".show-more-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             current_order_id = btn.dataset.order_id;
@@ -69,3 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
         popup.classList.add("d-none");
     });
 });
+const item_filter_buttons = document.querySelectorAll(".item_buttons");
+item_filter_buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        const filter = button.dataset.chef;
+        document.querySelectorAll("#items_table_body tr").forEach(row => {
+            const chef_id = parseInt(row.dataset.chef_id);
+            row.style.display = (
+                filter === "all" ||
+                (filter === "unassigned" && chef_id === 1) ||
+                (filter === "assigned" && chef_id !== 1)
+            ) ? "table-row" : "none";
+        });
+        item_filter_buttons.forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+    });
+});
+

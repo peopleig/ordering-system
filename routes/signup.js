@@ -4,9 +4,10 @@ const router = Router();
 const pool = require("../db.js");
 const jwt = require("jsonwebtoken");
 const hash_pwd  = require('../password.js');
+const already_logged_in = require("../middleware/blockaccess.js");
 const SECRET_KEY = process.env.SECRET_KEY;
 
-router.get('/', (req,res) => {
+router.get('/', already_logged_in, (req,res) => {
     res.render('signup', {error: false, message: ""});
 });
 

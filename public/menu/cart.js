@@ -21,6 +21,8 @@ function render_cart() {
 
         cart_items_div.appendChild(div);
     });
+    const cart_items = Object.values(cart);
+    console.log(cart_items);
 }
 
 function toggle_add_to_cart(button) {
@@ -43,7 +45,6 @@ function toggle_add_to_cart(button) {
         button.classList.add("btn-primary");
         button.textContent = "Added to Cart";
     }
-
     render_cart();
 }
 

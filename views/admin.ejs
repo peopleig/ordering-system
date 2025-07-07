@@ -17,10 +17,10 @@
 
         <h3 class="text-center mb-4">Manage Orders</h3>
         <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
-            <button class="btn btn-outline-primary filter-btn" data-status="all">All</button>
-            <button class="btn btn-outline-warning filter-btn" data-status="preparing">Preparing</button>
-            <button class="btn btn-outline-danger filter-btn" data-status="payment_pending">Payment Pending</button>
-            <button class="btn btn-outline-success filter-btn" data-status="completed">Completed</button>
+            <button class="btn btn-outline-primary filter-btn order_buttons active" data-status="all">All</button>
+            <button class="btn btn-outline-warning filter-btn order_buttons" data-status="preparing">Preparing</button>
+            <button class="btn btn-outline-danger filter-btn order_buttons" data-status="payment_pending">Payment Pending</button>
+            <button class="btn btn-outline-success filter-btn order_buttons" data-status="completed">Completed</button>
         </div>
         <div class="order_table">
             <table class="table table-bordered table-hover text-center align-middle">
@@ -66,6 +66,51 @@
                                 data-status="<%=order.status%>">
                                     Show More
                                 </button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <h3 class="text-center mb-4">Dishes Ordered</h3>
+        <div class="d-flex justify-content-center mb-4 flex-wrap gap-2">
+            <button class="btn btn-outline-primary filter-btn active item_buttons" data-chef="all">All Active</button>
+            <button class="btn btn-outline-success filter-btn item_buttons" data-chef="unassigned">Unassigned</button>
+            <button class="btn btn-outline-warning filter-btn item_buttons" data-chef="assigned">Assigned</button>
+        </div>
+        <div class="item_table">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Category</th>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Order Id</th>
+                        <th>Instructions</th>
+                        <th>Chef</th>
+                        <th>Complete</th>
+                    </tr>
+                </thead>
+                <tbody id="items_table_body">
+                    <% items.forEach(item => { %>
+                        <tr data-chef_id="<%= item.chef_id %>" data-user_id="<%= user_id %>">
+                            <td><%= item.category_name %></td>
+                            <td><%= item.item_name %></td>
+                            <td><%= item.quantity %></td>
+                            <td><%= item.order_id %></td>
+                            <td id="instructions"><%= item.instructions || "-" %></td>
+                            <td>
+                                <% if (item.chef_id == 1) { %>
+                                    Unassigned
+                                <% } else { %>
+                                    <%= item.first_name %> <%= item.last_name %>
+                                <% } %>
+                            </td>
+                            <td><% if(!item.dish_complete) { %>
+                                    Incomplete
+                                <% } else { %>
+                                    Completed
+                                <% } %>
                             </td>
                         </tr>
                     <% }) %>

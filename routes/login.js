@@ -3,10 +3,11 @@ const { Router, urlencoded } = require("express");
 const router = Router();
 const pool = require("../db.js");
 const jwt = require("jsonwebtoken");
+const already_logged_in = require("../middleware/blockaccess.js");
 const password_match = require("../middleware/loginauth.js");
 const SECRET_KEY = process.env.SECRET_KEY;
 
-router.get('/', (req,res) => {
+router.get('/',already_logged_in,(req,res) => {
     res.render('login', {error: false});
 });
 router.post("/", password_match, async (req, res) => {

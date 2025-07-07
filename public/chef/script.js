@@ -1,4 +1,5 @@
-document.querySelectorAll(".filter-btn").forEach(button => {
+const filter_buttons = document.querySelectorAll(".filter-btn")
+filter_buttons.forEach(button => {
     button.addEventListener("click", () => {
         const filter = button.dataset.chef;
         const my_id = parseInt(document.querySelector("body").dataset.user_id);
@@ -10,5 +11,7 @@ document.querySelectorAll(".filter-btn").forEach(button => {
                 (filter === "mine" && chef_id === my_id)
             ) ? "table-row" : "none";
         });
+        filter_buttons.forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
     });
 });

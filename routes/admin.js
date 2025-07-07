@@ -20,6 +20,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/", jwt_verify, async (req, res) => {
+    const user_id = req.user.user_id;
     try {
         if (req.user.role !== "admin") {
             return res.status(403).render("error_403");
@@ -34,7 +35,17 @@ router.get("/", jwt_verify, async (req, res) => {
         const [approvals] = await pool.query(`SELECT user_id, first_name, last_name, role 
             FROM User 
             WHERE approved = false`);
-        res.render("admin", { orders, approvals, dish_added, category_added });
+        const [items] = await pool.query(
+            `SELECT i.item_name, c.category_name, oi.quantity, o.instructions, o.order_id, oi.chef_id, u.first_name, u.last_name, oi.dish_complete
+             FROM Ordered_Items oi
+             JOIN Items i ON oi.item_id = i.item_id
+             JOIN Categories c ON i.category_id = c.category_id
+             JOIN Orders o ON oi.order_id = o.order_id
+             LEFT JOIN User u ON oi.chef_id = u.user_id
+             WHERE o.status = 'preparing'
+             ORDER BY o.order_id ASC`
+        );
+        res.render("admin", { orders, approvals, dish_added, category_added, items, user_id });
     } catch (err) {
         console.error("Error fetching orders:", err);
         res.status(500).send("Internal Server Error");
