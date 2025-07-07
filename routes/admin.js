@@ -102,17 +102,6 @@ router.post("/add_category", jwt_verify, async(req,res) => {
     }
 });
 
-router.post("/complete/:order_id", async (req, res) => {
-    const { order_id } = req.params;
-    try {
-        await pool.query("UPDATE Orders SET status = 'completed' WHERE order_id = ?",[order_id]);
-        res.sendStatus(200).redirect("/admin");
-    } catch (err) {
-        console.error("Error updating order:", err);
-        res.sendStatus(500);
-    }
-});
-
 router.patch("/approve/:user_id", async (req, res) => {
     try{
         await pool.query("UPDATE User SET approved = true WHERE user_id = ?", [req.params.user_id]);

@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const rows = document.querySelectorAll("#orders_table_body tr");
     const popup = document.getElementById("order_popup");
     const close_popup = document.getElementById("close_popup");
-    const mark_as_complete = document.getElementById("mark_complete_btn");
     const get_bill = document.getElementById("get_bill");
     let current_order_id;
     let current_user_id;
@@ -65,15 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <br>Status: ${status}`;
             popup.classList.remove("d-none");
         });
-    });
-    mark_as_complete.addEventListener("click", async () =>{
-        if (!current_order_id) return;
-        const res = await fetch(`/admin/complete/${current_order_id}`, {method: "POST"});
-        if (res.ok) {
-            location.reload();
-        } else {
-            alert("Failed to update order.");
-        }
     });
     close_popup.addEventListener("click", () => {
         popup.classList.add("d-none");
