@@ -69,6 +69,16 @@
             <form action="/order" method="GET">
                 <button class="btn btn-outline-secondary" type="submit">Back to Menu</button>
             </form>
+            <% if(role === 'admin') { %>
+                <form action="/admin" method="GET">
+                    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-user-tie" title="Admin Page"></i></button>
+                </form>
+            <% } %>
+            <% if(role === 'chef') { %>
+                <form action="/chef" method="GET">
+                    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-utensils" title="Chef Page"></i></button>
+                </form>
+            <% } %>
         </div>
     </div>
 </div>

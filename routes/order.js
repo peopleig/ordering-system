@@ -4,6 +4,7 @@ const pool = require("../db.js");
 const jwt_verify = require("../middleware/jwtoken.js");
 
 router.get("/", jwt_verify, async(req,res) =>{
+    const {user_id, role} = req.user;
     try {
         const review_exists = req.query.review_exists === "true";
         const [rows] = await pool.query(`
@@ -39,7 +40,7 @@ router.get("/", jwt_verify, async(req,res) =>{
             ORDER BY order_id DESC
         `, [user_id]);
 
-        res.render("menu", { menu_by_category , orders, review_exists});
+        res.render("menu", { menu_by_category , orders, review_exists, role});
 
     } catch (err) {
         console.error("Error loading menu:", err);
@@ -152,7 +153,7 @@ router.get("/preparing/:order_id", jwt_verify, async (req,res) => {
         items.forEach(item =>{
             total+= item.price*item.quantity;
         });
-        res.render("bill_prep", { order, user, items, total });
+        res.render("bill_prep", { order, user, items, total, role });
     }
     catch(err){
         console.error("Error fetching order:", err);
@@ -198,7 +199,7 @@ router.get("/completed/:order_id", jwt_verify, async (req,res) => {
             [order_id]
         );
         const review = reviews[0];
-        res.render("bill_complete", { order, user, items, total, transaction, review});
+        res.render("bill_complete", { order, user, items, total, transaction, review, role});
     }
     catch(err){
         console.error("Error fetching order:", err);

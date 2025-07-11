@@ -54,4 +54,7 @@
     background: #ccc;
     border-radius: 3px;
 }
+i {
+    margin-bottom: 0 !important;
+}
 
