@@ -43,7 +43,7 @@ function toggle_add_to_cart(button) {
         };
         button.classList.remove("btn-outline-primary");
         button.classList.add("btn-primary");
-        button.textContent = "Added to Cart";
+        button.textContent = "Remove From Cart";
     }
     render_cart();
 }

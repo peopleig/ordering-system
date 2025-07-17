@@ -5,6 +5,7 @@ const pool = require("../db.js");
 const jwt_verify = require("../middleware/jwtoken.js");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -52,12 +53,14 @@ router.get("/", jwt_verify, async (req, res) => {
     }
 });
 router.get("/add_dish", jwt_verify, async (req,res)=> {
+    const role = req.user.role;
     try{
+        const dish_exists = req.query.dish_exists === "true";
         if (req.user.role !== "admin"){
             return res.status(403).render("error_403");
         }
         const [categories] = await pool.query("SELECT * FROM Categories");
-        res.render("add_dish", {categories});
+        res.render("add_dish", {categories, role, dish_exists});
     }
     catch (err) {
         console.error("Error fetching categories:", err);
@@ -72,12 +75,29 @@ router.post("/add_dish", jwt_verify, upload.single("item_image"), async (req, re
         }
         const {item_name, category_id, price, description, is_veg, spice_level} = req.body;
         const image_url = "/images/" + req.file.filename;
+        const [same] = await pool.query (
+            `SELECT i.item_name, c.category_id
+            FROM Items i
+            JOIN Categories c ON i.category_id = c.category_id
+            WHERE LOWER(i.item_name) = LOWER(?) AND c.category_id = ?`,
+            [item_name, category_id]
+        );
+        if(same.length !== 0){
+            const image_path = path.join(__dirname, "../public", image_url); 
+            fs.unlink(image_path, (err) => {
+                if(err) 
+                    console.error("Error deleting uploaded image:", err);
+                else
+                    console.log("Deletion done");
+            });
+            return res.redirect("/admin/add_dish?dish_exists=true");
+        }
         await pool.query(
             `INSERT INTO Items (item_name, category_id, price, description, item_image_url, is_veg, spice_level)
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [item_name, category_id, price, description, image_url, is_veg, spice_level]
         );
-        res.redirect("/admin?dish_added=true");
+        res.redirect("/admin?dish_added=true"); 
     } catch (err) {
         console.error("Error adding dish:", err);
         res.status(500).send("Error adding dish.");
@@ -85,11 +105,13 @@ router.post("/add_dish", jwt_verify, upload.single("item_image"), async (req, re
 });
 
 router.get("/add_category", jwt_verify, async(req,res) => {
+    const role = req.user.role;
     try{
+        const category_exists = req.query.category_exists === "true";
         if(req.user.role !== "admin"){
             return res.status(403).render("error_403");
         }
-        res.render("add_category");
+        res.render("add_category", {category_exists, role});
     }catch(err) {
         console.error("Error adding category:", err);
         res.status(500).send("Error adding category");
@@ -101,6 +123,13 @@ router.post("/add_category", jwt_verify, async(req,res) => {
         if(req.user.role !== "admin"){
             return res.status(403).render("error_403");
         }
+        const [same] = await pool.query(
+            `SELECT * FROM Categories WHERE LOWER(category_name) = LOWER(?)`,
+            [req.body.category_name]
+        );
+        if(same.length !== 0){
+            return res.redirect("/admin/add_category?category_exists=true");
+        } 
         await pool.query(
             `INSERT INTO Categories (category_name)
              VALUES (?)`,

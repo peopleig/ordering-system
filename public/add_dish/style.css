@@ -9,3 +9,10 @@
     overflow: scroll;
     padding-bottom: 5rem;
 }
+.custom-toast {
+    background-color: #98FF98 !important;
+    color: #021945;
+}
+i {
+    margin-bottom: 0 !important;
+}

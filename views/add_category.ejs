@@ -4,7 +4,19 @@
 <div id="cover">
     <div class="container mt-5 pt-5">
         <div class="bg-white p-4 rounded shadow-sm" style="max-width: 700px; margin: auto;">
-            <h3 class="text-center mb-4">Add New Category</h3>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-center mb-4">Add New Category</h3>
+                <% if(role === 'admin') { %>
+                    <form action="/admin" method="GET">
+                        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-user-tie" title="Admin Page"></i></button>
+                    </form>
+                <% } %>
+                <% if(role === 'chef') { %>
+                    <form action="/chef" method="GET">
+                        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-utensils" title="Chef Page"></i></button>
+                    </form>
+                <% } %>
+            </div>
             <form action="/admin/add_category" method="POST">
                 <div class="mb-3">
                     <label for="category_name" class="form-label">Category Name</label>
@@ -18,6 +30,18 @@
         </div>
     </div>
 </div>
+<% if (category_exists) { %>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+        <div class="toast custom-toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    There is already a category with the same name!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+<% } %>
 
 <%- include("../public/partials/footer") %>
 <script src="/add_dish/script.js"></script>
