@@ -26,7 +26,7 @@ function render_cart() {
                     <button class="btn btn-link p-0 text-decoration-underline instruction-toggle" data-id="${item.id}" onclick="toggle_instruction(${item.id})">
                         Add Specific Instruction
                     </button>
-                    <button class="btn btn-link p-0" data-id="${item.id}" onclick="clear_box(${item.id})">
+                    <button class="btn btn-link p-0" data-id="${item.id}" onclick="clear_box(${item.id})" title="Clear Instructions">
                         <i class="fa-solid fa-trash-can clear-data"></i>
                     </button>
                 </div>
