@@ -62,8 +62,9 @@ router.post("/", jwt_verify, async (req, res) => {
             [user_id, order_type, table_number, instructions, total_cost]
         );
         const order_id = order_result.insertId;
-        const values = cart.map(item => [order_id, item.id, item.quantity]);
-        await pool.query("INSERT INTO Ordered_Items (order_id, item_id, quantity) VALUES ?", [values]);
+        const values = cart.map(item => [order_id, item.id, item.quantity, item.instruction]);
+        const final_items = await pool.query("INSERT INTO Ordered_Items (order_id, item_id, quantity, specific_instructions) VALUES ?", [values]);
+        console.log(final_items);
         res.redirect("/order");
     } catch (err) {
         console.error("Order submission error:", err);

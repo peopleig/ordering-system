@@ -46,6 +46,7 @@
         order_id BIGINT,
         item_id BIGINT,
         quantity INT,
+        specific_instructions TEXT,
         dish_complete BOOLEAN DEFAULT FALSE,
         chef_id BIGINT DEFAULT 1,
         PRIMARY KEY (order_id, item_id),

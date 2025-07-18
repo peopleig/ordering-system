@@ -37,7 +37,11 @@
                             <td><%= item.item_name %></td>
                             <td><%= item.quantity %></td>
                             <td><%= item.order_id %></td>
-                            <td id="instructions"><%= item.instructions || "-" %></td>
+                            <td id="instructions">
+                                <%= item.specific_instructions %>
+                                <br>
+                                <%= (item.instructions || "-") %>
+                            </td>
                             <td>
                                 <% if (item.chef_id == 1) { %>
                                     Unassigned

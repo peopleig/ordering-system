@@ -5,17 +5,33 @@ function render_cart() {
     cart_items_div.innerHTML = "";
 
     Object.values(cart).forEach(item => {
+        if (!item.instruction) item.instruction = "-";
+
         const div = document.createElement("div");
-        div.className = "mb-2 d-flex justify-content-between align-items-center";
+        div.className = "mb-3 p-2 border rounded";
 
         div.innerHTML = `
-            <div>
-                <b>${item.name}</b> 
-                <br>₹${item.price} x ${item.quantity} = ₹${item.price*item.quantity}
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <b>${item.name}</b><br>
+                    ₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary me-1" onclick="change_quantity(${item.id}, -1)">−</button>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="change_quantity(${item.id}, 1)">+</button>
+                </div>
             </div>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary me-1" onclick="change_quantity(${item.id}, -1)">−</button>
-                <button class="btn btn-sm btn-outline-secondary" onclick="change_quantity(${item.id}, 1)">+</button>
+            <div class="mt-2">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-link p-0 text-decoration-underline instruction-toggle" data-id="${item.id}" onclick="toggle_instruction(${item.id})">
+                        Add Specific Instruction
+                    </button>
+                    <button class="btn btn-link p-0" data-id="${item.id}" onclick="clear_box(${item.id})">
+                        <i class="fa-solid fa-trash-can clear-data"></i>
+                    </button>
+                </div>
+                <textarea class="form-control mt-2 d-none" id="instruction_box_${item.id}" rows="1" 
+                placeholder="Enter any specific request...">${item.instruction === '-' ? '' : item.instruction}</textarea>
             </div>
         `;
 
@@ -63,6 +79,31 @@ function change_quantity(id, delta) {
     }
     render_cart();
 }
+
+function toggle_instruction(id) {
+    const textarea = document.getElementById(`instruction_box_${id}`);
+    const button = document.querySelector(`.instruction-toggle[data-id="${id}"]`);
+
+    if (textarea.classList.contains("d-none")) {
+        textarea.classList.remove("d-none");
+        button.textContent = "Collapse";
+    } else {
+        textarea.classList.add("d-none");
+        button.textContent = "Add Specific Instruction";
+    }
+    textarea.addEventListener("input", () => {
+        if (cart[id]) {
+            cart[id].instruction = textarea.value.trim() || "-";
+        }
+    });
+}
+
+function clear_box(id){
+    const textarea = document.getElementById(`instruction_box_${id}`);
+    textarea.value = "";
+    if (cart[id]) cart[id].instruction = "-";
+}
+
 function confirm_order() {
     const cart_items = Object.values(cart);
     if (cart_items.length === 0) {

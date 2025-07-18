@@ -11,7 +11,7 @@ router.get("/", jwt_verify, async (req,res)=>{
             return res.status(403).render("error_403");
         }
         const [items] = await pool.query(
-            `SELECT i.item_name, c.category_name, oi.quantity, o.instructions, o.order_id, oi.chef_id, u.first_name, u.last_name
+            `SELECT i.item_name, c.category_name, oi.quantity, oi.specific_instructions, o.instructions, o.order_id, oi.chef_id, u.first_name, u.last_name
              FROM Ordered_Items oi
              JOIN Items i ON oi.item_id = i.item_id
              JOIN Categories c ON i.category_id = c.category_id
