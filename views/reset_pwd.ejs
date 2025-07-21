@@ -1,0 +1,40 @@
+<%- include("../public/partials/head.ejs", { title: "Reset Password", CSSFile: "/login/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+    <div id="wrapper">
+        <div id="cover">
+            <form action="/reset/reset_pwd/<%= user_id %>" method="POST" class="container mt-5" style="max-width: 400px;">
+                <h3 class="text-center mb-4"><b>Reset Password</b></h3>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="show_password">
+                    <label class="form-check-label" for="show_password">Show Password</label>
+                </div>
+                <div class="d-grid">
+                    <input type="hidden" id="random_string" name="random" value="<%=random_string%>">
+                    <button type="submit" class="btn btn-primary">Reset Password</button>
+                </div>
+            </form>
+            <form action="/login" method="GET">
+                <button class="btn btn-outline-success redirect" type="submit">Take me back to Login</button>
+            </form>
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div id="error_msg_toast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Invalid OTP! Try again.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+<%- include("../public/partials/footer") %>
+<script src="/login/script.js"></script>
+</body>
+</html>

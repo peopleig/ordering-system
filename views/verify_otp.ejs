@@ -1,0 +1,37 @@
+<%- include("../public/partials/head.ejs", { title: "Verify OTP", CSSFile: "/login/style.css" }) %>
+<body>
+<%- include("../public/partials/navbar.ejs") %>
+    <div id="wrapper">
+        <div id="cover">
+            <form action="/reset/verify_otp/<%= user_id %>" method="POST" class="container mt-5" style="max-width: 400px;">
+                <h3 class="text-center mb-4"><b>Verify OTP</b></h3>
+                <div class="mb-3">
+                    <label for="otp" class="form-label">Enter OTP</label>
+                    <input type="number" min="100000" max="999999" class="form-control" id="otp" name="otp" placeholder="000000" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Verify OTP</button>
+                </div>
+            </form>
+            <form action="/reset/verify_otp/<%= user_id %>?_method=DELETE" method="POST">
+                <button class="btn btn-outline-success redirect" type="submit">Cancel OTP Verification</button>
+            </form>
+        </div>
+    </div>
+    <% if (error) { %>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+            <div class="toast custom-toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <%=message%>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+<%- include("../public/partials/footer") %>
+<script src="/login/script.js"></script>
+</body>
+</html>

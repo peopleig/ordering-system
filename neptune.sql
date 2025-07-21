@@ -14,6 +14,13 @@
         approved BOOLEAN DEFAULT TRUE
     );
 
+    CREATE TABLE Otp (
+        user_id BIGINT NOT NULL,
+        otp INT, 
+        created_at BIGINT, 
+        random_string TEXT
+    );
+
     CREATE TABLE Categories (
         category_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
         category_name VARCHAR(255)

@@ -14,12 +14,12 @@ async function password_match(req, res, next) {
         }
         const [rows] = await pool.query(query, [identifier]);
         if (rows.length === 0) {
-            return res.status(401).render("login", { error: true });
+            return res.status(401).render("login", { error: true, message: "Invalid Credentials. No User Found!" });
         }
         const user = rows[0];
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            return res.status(401).render("login", { error: true });
+            return res.status(401).render("login", { error: true, message: "Incorrect Password. Try Again!" });
         }
         req.user = user; 
         next();

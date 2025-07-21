@@ -8,8 +8,20 @@ const password_match = require("../middleware/loginauth.js");
 const SECRET_KEY = process.env.SECRET_KEY;
 
 router.get('/',already_logged_in,(req,res) => {
-    res.render('login', {error: false});
+    let error, message;
+    if(req.query.error && req.query.message){
+        if(req.query.error === 'true'){
+            error = true;
+        }
+        message = req.query.message;
+    }
+    else{
+        error = false;
+        message = '';
+    }
+    res.render('login', {error, message});
 });
+
 router.post("/", password_match, async (req, res) => {
     const user = req.user;
     try{
