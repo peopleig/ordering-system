@@ -1,5 +1,5 @@
 # ordering-system  
-## Default Creds  
+## Default Credentials 
 ### Admin:  
 - Email Id: admin.neptune@restaurant.com  
 - Mobile No.: 0000000000  
